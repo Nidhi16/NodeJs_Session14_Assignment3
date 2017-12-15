@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/public/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+            <p>Student Id: <%= student._id %></p>
+            <p>Name: <%= student.name %></p>
+            <p>Roll Number: <%= student.roll_code %></p>
+            <p>D.O.B: <%= student.dob %></p>
+            <p>Gender: <%= student.gender %></p>
+            <p>School: <%= student.school %></p>
+            <p>Email: <%= student.email %></p>
+            <p>Phone: <%= student.phone %></p>
+            <p>Description: <%= student.description %></p>
+            <p>Address: <%= student.address %></p>
+        </div>
+        <button type="button" class="btn btn-default" id="update-btn">Update</button>
+        <button type="button" class="btn btn-default" id="delete-btn">Delete</button>
+
+        <form id="student-form">
+            <legend>Add New Student</legend>
+            <div class="form-group">
+                <input type="text" name="name" class="form-control" placeholder="Name" value="<%= student.name %>">
+            </div>
+            <div class="form-group">
+                <input type="text" name="roll" class="form-control" placeholder="Roll Number" value="<%= student.roll_code %>">
+            </div>
+            <div class="form-group">
+                <input type="text" name="dob" class="form-control" placeholder="Date of Birth" value="<%= student.dob %>">
+            </div>
+            <div class="form-group">
+                <select class="form-control" name="gender">
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="text" name="school" class="form-control" placeholder="School" value="<%= student.school %>">
+            </div>
+            <div class="form-group">
+                <input type="email" name="email" class="form-control" placeholder="Email" value="<%= student.email %>">
+            </div>
+            <div class="form-group">
+                <input type="text" name="phone" class="form-control" placeholder="Phone" value="<%= student.phone %>">
+            </div>
+            <div class="form-group">
+                <input type="text" name="address" class="form-control" placeholder="Your location" value="<%= student.description %>">
+            </div>
+            <div class="form-group">
+                <textarea name="description" class="form-control" placeholder="About yourself"><%= student.address %></textarea>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-default">Submit</button>
+            </div>
+        </form>
+        <div class="col-sm-3"></div>
+    </div>
+</div>
+<script src="/public/jquery.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#student-form').hide();
+        $('#update-btn').on('click', function () {
+            $('#student-form').show();
+        });
+        $('#student-form').submit(function (event) {
+            event.preventDefault();
+            var formData = {
+                'name': $('input[name=name]').val(),
+                'roll': $('input[name=roll]').val(),
+                'dob': $('input[name=dob]').val(),
+                'gender': $('select[name=gender]').val(),
+                'school': $('input[name=school]').val(),
+                'email': $('input[name=email]').val(),
+                'phone': $('input[name=phone]').val(),
+                'address': $('input[name=address]').val(),
+                'description': $('textarea[name=description]').val()
+            };
+            $.ajax({
+                'url': '/api/student/<%= student._id %>/',
+                'type': 'PUT',
+                'dataType': 'json',
+                'data': formData
+            }).fail(function (error) {
+                console.log(error);
+            }).done(function (data) {
+                console.log("Done");
+                window.location.reload();
+            });
+        });
+        $('#delete-btn').on('click', function(){
+            $.ajax({
+                'url': '/api/student/<%= student._id %>',
+                'type': 'DELETE'
+            }).fail(function (error) {
+                console.log(error);
+            }).done(function (data) {
+                console.log("Done");
+                window.location.href = '/api/students/';
+            });
+        })
+    });
+</script>
+</body>
+</html>

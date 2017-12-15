@@ -10,7 +10,8 @@ router.route('/students')
             if (err) {
                 response.send(err);
             } else {
-                response.json(results);
+                // response.json(results);
+                response.render('student_list', {'students': results});
             }
         });
     })
@@ -19,7 +20,7 @@ router.route('/students')
         var data = request.body;
         var newStudent = new Student();
         newStudent.name = data.name;
-        newStudent.roll_code = data.roll_code;
+        newStudent.roll_code = data.roll;
         newStudent.dob = data.dob;
         newStudent.gender = data.gender;
         newStudent.school = data.school;
@@ -28,16 +29,16 @@ router.route('/students')
         newStudent.description = data.description;
         newStudent.address = data.address;
 
-        newStudent.save(function (err, result) {
+        newStudent.save(function (err, student) {
             if (err) {
                 response.send(err);
             } else {
-                response.json(result);
+                response.render('student_detail', {'student': student});
             }
         })
     });
 
-router.route('/students/:id')
+router.route('/student/:id')
     .put(function(request, response){
         // response.send("This is the put request");
         var id = request.params.id;
@@ -61,7 +62,7 @@ router.route('/students/:id')
             if(err)
                 response.send(err);
 
-            response.json(student);
+            response.render('student_detail', {'student': student});
         });
     })
     .delete(function(request, response){
@@ -72,7 +73,7 @@ router.route('/students/:id')
             if (err)
                 response.send(err);
 
-            response.json({ message: 'Student Successfully deleted' });
+            response.sendStatus(204);
         });
     });
 
