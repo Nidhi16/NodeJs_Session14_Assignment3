@@ -33,7 +33,7 @@ router.route('/students')
             if (err) {
                 response.send(err);
             } else {
-                response.render('student_detail', {'student': student});
+                response.redirect('/api/student/'+student._id+'/');
             }
         })
     });
@@ -48,7 +48,7 @@ router.route('/student/:id')
             }
 
             // save the movie
-            student.save(function(err) {
+            student.save(function(err, student) {
                 if (err)
                     response.send(err);
 
