@@ -18,9 +18,9 @@
             <p>Phone: <%= student.phone %></p>
             <p>Description: <%= student.description %></p>
             <p>Address: <%= student.address %></p>
+            <button type="button" class="btn btn-default" id="update-btn">Update</button>
+            <button type="button" class="btn btn-default" id="delete-btn">Delete</button>
         </div>
-        <button type="button" class="btn btn-default" id="update-btn">Update</button>
-        <button type="button" class="btn btn-default" id="delete-btn">Delete</button>
 
         <form id="student-update-form">
             <legend>Update Student</legend>
@@ -101,7 +101,7 @@
                 console.log(error);
             }).done(function (data) {
                 console.log("Done");
-                window.location.href = '/api/students/';
+                window.location.href = '/api/student/';
             });
         })
     });
